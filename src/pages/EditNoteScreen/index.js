@@ -1,7 +1,7 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BodyInput, CloseButton, CloseButtonImage, Container, SaveButton, SaveButtonImage, TitleInput } from './styles';
+import { BodyInput, CloseButton, CloseButtonImage, Container, DeleteButton, DeleteButtonText, SaveButton, SaveButtonImage, TitleInput } from './styles';
 
 export default () => {
 
@@ -67,7 +67,14 @@ export default () => {
             alert("Preencha título e corpo");
         }
     }
+    const handleDeleteNoteButton = () => {
 
+        dispatch({
+            type: 'DEL_NOTE',
+            payload: { key: route.params.key }
+        });
+        navigation.goBack();
+    }
 
     return (
         <Container>
@@ -88,6 +95,12 @@ export default () => {
                 textAlignVertical="top"
 
             />
+            {status == 'edit' &&
+                <DeleteButton underlayColor="#FF0000" onPress={handleDeleteNoteButton}>
+                    <DeleteButtonText>Excluir nota</DeleteButtonText>
+                </DeleteButton>
+
+            }
         </Container>
     );
 }
